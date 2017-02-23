@@ -67,6 +67,9 @@ export class Settings {
                     case "timeCriticality":
                         that._selectedFields.tcField = fieldReferenceName;
                         break;
+                    case "riskOpportunity":
+                        that._selectedFields.riskOppField = fieldReferenceName;
+                        break;
                     case "effort":
                         that._selectedFields.effortField = fieldReferenceName;
                         break;
@@ -122,6 +125,9 @@ export class Settings {
         let tcContainer = $("<div />").addClass("settings-control").appendTo(container);
         $("<label />").text("Time Criticality Field").appendTo(tcContainer);
 
+        let riskOppContainer = $("<div />").addClass("settings-control").appendTo(container);
+        $("<label />").text("Risk Reduction | Opportunity Enablement Field").appendTo(riskOppContainer);
+
         let effortContainer = $("<div />").addClass("settings-control").appendTo(container);
         $("<label />").text("Effort Field").appendTo(effortContainer);
 
@@ -139,6 +145,7 @@ export class Settings {
                     this._selectedFields = {
                         bvField: "Microsoft.VSTS.Common.BusinessValue",
                         tcField: "Microsoft.VSTS.Common.TimeCriticality",
+                        riskOppField: null,
                         effortField: "Microsoft.VSTS.Scheduling.Effort",
                         wsjfField: null
                     };
@@ -147,6 +154,7 @@ export class Settings {
                 this.getSortedFieldsList().then((fieldList) => {
                     Controls.create(Combo, bvContainer, this.getComboOptions("businessValue", fieldList, this._selectedFields.bvField));
                     Controls.create(Combo, tcContainer, this.getComboOptions("timeCriticality", fieldList, this._selectedFields.tcField));
+                    Controls.create(Combo, tcContainer, this.getComboOptions("riskOpportunity", fieldList, this._selectedFields.riskOppField));
                     Controls.create(Combo, effortContainer, this.getComboOptions("effort", fieldList, this._selectedFields.effortField));
                     Controls.create(Combo, wsjfContainer, this.getComboOptions("wsjf", fieldList, this._selectedFields.wsjfField));
                     this.updateSaveButton();
@@ -168,7 +176,7 @@ export class Settings {
     } 
 
     private updateSaveButton() {
-        var buttonState = (this._selectedFields.bvField && this._selectedFields.tcField && 
+        var buttonState = (this._selectedFields.bvField && this._selectedFields.tcField && this._selectedFields.riskOppField &&
                             this._selectedFields.effortField && this._selectedFields.wsjfField) && this._changeMade
                             ? Menus.MenuItemState.None : Menus.MenuItemState.Disabled;
 
